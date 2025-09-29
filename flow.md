@@ -1,22 +1,30 @@
 @startuml
-actor "Application / Workload" as App
-actor "Vault Agent" as Agent
-actor "Vault Venafi PKI Engine" as Vault
-actor "Venafi TPP" as TPP
+rectangle "Application / Workload" as App {
+  [Uses Injected Certificate]
+}
 
-App --> (Use Injected Certificate)
+rectangle "Vault Agent" as Agent {
+  [Fetch Certificate]
+  [Inject Certificate]
+}
 
-Agent --> (Inject Certificate into Workload)
-Agent --> Vault : Fetch certs/keys
+rectangle "Vault Venafi PKI Engine" as Vault {
+  [Request Certificate]
+  [Store Metadata]
+  [Renew Certificate]
+  [Revoke Certificate]
+}
 
-Vault --> (Store Certificate & Metadata)
-Vault --> (Renew Certificate)
-Vault --> (Handle Expiry)
-Vault --> (Revoke Certificate)
-Vault --> TPP : Request / Manage certs
+rectangle "Venafi TPP" as TPP {
+  [Generate Certificate & Key]
+  [Enforce Expiry]
+  [Publish Revocation (CRL/OCSP)]
+}
 
-TPP --> (Generate Certificate & Key Pair)
-TPP --> (Enforce Expiry)
-TPP --> (Revoke Certificate in CRL/OCSP)
-
+App --> Agent : Needs cert
+Agent --> Vault : Fetch/renew cert
+Vault --> TPP : API calls for issuance/renewal/revocation
+TPP --> Vault : Returns cert + status
+Vault --> Agent : Provides cert
+Agent --> App : Injects cert
 @enduml
