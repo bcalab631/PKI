@@ -7,3 +7,10 @@
 | **Renewal**            | Availability / Reliability | Vault Venafi PKI engine handles auto-renewal before expiry using stored lease info. Vault Agent auto-fetches the renewed cert for workloads. No need to re-issue until expiry. | Auto-renew threshold ~2/3rd of cert lifetime. Renewal success rate ≥ 99%. |
 | **Expiry Handling**    | Reliability              | Venafi TPP enforces validity periods. Vault tracks TTL and requests renewal before expiry. Expired certs are replaced with new issuance via TPP. | Alerts/logs for expiry within threshold (e.g., 7 days). No expired certs injected. |
 | **Revocation**         | Security / Compliance    | Revocation is executed via Venafi TPP. Vault Venafi PKI engine can trigger revocation through TPP APIs. Revoked certs appear in CRL/OCSP. Vault ensures revoked certs are not injected. | Revocation SLA ≤ 2s. Revoked cert visible in CRL/OCSP ≤ 15 min. Vault must reject revoked certs. |
+
+
+Vault = broker + cache/storage
+
+Vault Agent = injector only
+
+Venafi TPP = issuer + system of record
