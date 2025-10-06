@@ -70,3 +70,9 @@ Venafi TPP = issuer + system of record
 | **Vault Administrator / PKI Operations Team** | Human Actor                      | Security administrators responsible for Vault configuration, PKI integration, and policy enforcement.                  | • Configures Vault policies, PKI secret engine, and auth methods<br>• Manages role-based access control and lifecycle settings                                         |
 | **Audit / Logging System**                    | Monitoring System                | External SIEM or centralized logging platform for security auditing and compliance.                                    | • Receives Vault and Venafi audit logs<br>• Correlates events for compliance and security monitoring                                                                   |
 | **End User (Indirect)**                       | Human User / Application Owner   | Uses an application that relies on Vault-managed certificates.                                                         | • Indirectly benefits from secure certificate lifecycle management via Vault Agent integration                                                                         |
+HSM (Hardware Security Module)
+Hardware Security Device
+Cryptographic module used by Vault to protect master encryption keys and perform auto-unseal operations securely.
+• Stores and protects Vault’s master key
+• Provides secure key operations (unseal, encryption, decryption)
+• Ensures FIPS 140-2 compliance
